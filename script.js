@@ -5,7 +5,7 @@ const keys = {"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9"
 const templates = {
     'wordElement':`%WORD%%SPACER%`,
     'output_template':'',
-    'wordsaveTemplate': `<div class="wordsave" title="copy" onclick="copyText(`+'`%WORD%`'+`);"><span>%WORD%</span><button class="del-wordsave">X</button></div>`
+    'wordsaveTemplate': `<div class="wordsave" alt="Copy Saved Word" title="copy" onclick="copyText(`+'`%WORD%`'+`);"><span>%WORD%</span><button class="del-wordsave" alt="Delete Saved Word" title="Delete">X</button></div>`
 };
 
 var words;
@@ -13,6 +13,8 @@ var words;
 let wordsList = document.querySelector('#words-list');
 
 const savedWords = document.querySelector('#saved-words');
+
+const copyBTN = document.querySelector('#copy-btn');
 
 const wordsloaded = new Event('wordsloaded');
 
@@ -131,11 +133,19 @@ if (!document.activeElement.matches('input[type="text"]')) {
         addWordsave(wordsList.innerText);
     }
 }
-})
+});
+
+copyBTN.addEventListener('mouseout', function() {
+    copyBTN.innerText = 'Copy'
+});
 
 function addWordsave(word) {
     if (typeof word == 'string') {
     runtime.saved_words.push(word);
     savedWords.insertAdjacentHTML('beforeend',templates.wordsaveTemplate.replaceAll('%WORD%',word));
     }
+}
+
+function clearSavedWords() {
+    savedWords.innerHTML = '';
 }
