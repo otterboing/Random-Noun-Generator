@@ -15,8 +15,11 @@ button:focus,input:focus {
 }
 
 button,input[type="checkbox"] {
-    cursor: pointer;
     user-select: none!important;
+}
+
+button:not([disabled]),input[type="checkbox"]:not([disabled]) {
+    cursor: pointer;
 }
 
 span {
@@ -187,11 +190,15 @@ a:not(:Not(:hover,:focus)) {
     opacity: 1;
 }
 
-#clearWordsaves {
-    transition: background 0.15s;
+#clearWordsaves,#clearWordsavesPre {
+    transition: background 0.15s, opacity 0.15s;
 }
 
-#clearWordsaves:not(:not(:hover,:focus)) {
+#clearWordsaves[disabled]:hover,#clrearWordsavesPre[disabled]:hover {
+    cursor: default;
+}
+
+#clearWordsaves:not([disabled]):not(:not(:hover,:focus)) {
     background: rgba(225.000,102.5,102.5);
     /* border-bottom: 1px solid red; */
     /* border-top: 1px solid rgba(255,50.0,50.0); */
@@ -199,7 +206,7 @@ a:not(:Not(:hover,:focus)) {
     border-right: none;
 }
 
-#clearWordsavesPre:not(:not(:focus,:hover)) {
+#clearWordsavesPre:not([disabled]):not(:not(:focus,:hover)) {
     background: rgba(255,102.5,102.5);
     border-left: none;
     border-right: none;
@@ -207,8 +214,9 @@ a:not(:Not(:hover,:focus)) {
 
 key {
     margin: 0 0.10rem 0 0.10rem;
-    width: 1.150rem;
+    /* min-width: 1.150rem; */
     height: 1.150rem;
+    padding: 0 0.4rem 0 0.4rem;
     background-color: rgba(220,220,220);
     color: rgba(75.00,75.00,75.00);
     border: 1px solid rgba(75,75,75);

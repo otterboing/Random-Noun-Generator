@@ -8,9 +8,9 @@
 <body>
 <div area id="app">
 <div id="info" style="position: absolute; right: 5px; top: 5px; color: grey; display: flex; flex-direction: row; juftify-content: center; align-items: center; gap: 0.5rem; font-size: 0.80rem; font-weight: lighter;">
-    <span>Time Spent On this: 5h 0min (maybe?)</span>
+    <span>Time Spent On this: 6 hours (maybe?)</span>
     <a target="_blank" href="https://github.com/otterboing/Random-Nouns" style="color: grey!important;"><img src="assets/GitHub_Invertocat_Black.svg" style="width: 0.80rem; height: 0.80rem; user-select: none; -webkit-user-drag: none; -moz-user-drag: none;"> GitHub</a>
-    <span style="color: rgba(100,100,100);"><b> : <key>E</key> for new words, <key>S</key> to save word</b></span>
+    <span style="color: rgba(100,100,100);"><b> : <key>E</key> for new words, <key>S</key> to save word,</b><key>Shift C</key><b>To clear saves</b></span>
 </div>
 <div id="center">
     <div id="words-list">
@@ -29,10 +29,11 @@
         <input type="checkbox" onchange="runtime.auto_copy = !!this.checked;">
         <span> : </span>
         <button id="saveWordBTN" alt="Save Word" title="[S]" onclick="addWordsave(wordsList.innerText);">Save</button>
-        <button id="clearWordsavesPre" alt="Clear Saved Words" title="Clear Saved Words" onclick="this.hidden = true; clearWordsavesBTN.hidden = false; clearWordsavesBTN.focus()">Clear</button>
+        
+        <button id="clearWordsavesPre" alt="Clear Saved Words" disabled title="Clear Saved Words" onclick="this.hidden = true; clearWordsavesBTN.hidden = false; clearWordsavesBTN.focus()">Clear</button>
         <button hidden id="clearWordsaves" alt="Clear Saved Words" title="Clear Saved Words" onclick="clearSavedWords(); this.hidden = true; clearWordsavesPreBTN.hidden = false; clearWordsavesPreBTN.focus();">Press Again To Clear</button>
     </div>
-    <div><span>Warning : </span><span style="color: darkred; font-weight: bold;">Words May Make Or Contain Swear Words.</span></div>
+    <div style=" font-size: 0.75rem;"><span>Warning : </span><span style="color: darkred; font-weight: bold;">Words May Make Or Contain Swear Words.</span></div>
     <div style="display: flex; flex-direction: column; text-align: center;"><span>Words taken from : </span><a target="_blank" href="https://github.com/sapics/noun-json/blob/master/output.js">https://github.com/sapics/noun-json/blob/master/output.js</a><a target="_blank" href="https://github.com/sapics/noun-json/blob/master/LICENSE">MIT License</a></div>
     <div id="saved-words">
     </div>

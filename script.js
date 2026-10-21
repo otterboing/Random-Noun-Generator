@@ -5,7 +5,7 @@ const keys = {"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9"
 const templates = {
     'wordElement':`%WORD%%SPACER%`,
     'output_template':'',
-    'wordsaveTemplate': `<div class="wordsave" alt="Copy Saved Word" title="copy" onclick="copyText(`+'`%WORD%`'+`);"><span>%WORD%</span><button class="del-wordsave" alt="Delete Saved Word" title="Delete">X</button></div>`
+    'wordsaveTemplate': `<div class="wordsave" index="%INDEX%" alt="Copy Saved Word" title="copy" onclick="copyText(`+'`%WORD%`'+`);"><span>%WORD%</span><button class="del-wordsave" alt="Delete Saved Word" title="Delete">X</button></div>`
 };
 
 var words;
@@ -15,6 +15,10 @@ let wordsList = document.querySelector('#words-list');
 const savedWords = document.querySelector('#saved-words');
 
 const copyBTN = document.querySelector('#copy-btn');
+const clearWordsavesBTN = document.querySelector('#clearWordsaves');
+const clearWordsavesPreBTN = document.querySelector('#clearWordsavesPre');
+const saveWordBTN = document.querySelector('#saveWordBTN');
+const moreWordsBTN = document.querySelector('#generate_words');
 
 const wordsloaded = new Event('wordsloaded');
 
@@ -117,13 +121,16 @@ function copyText(string) {
     }
 }
 
-addEventListener('click', function() {
+addEventListener('click', function(event) {
     if (event.target.matches('#saved-words .wordsave .del-wordsave')) {
-        event.target.parentNode.remove();
+        const parent = event.target.parentNode;
+        runtime.saved_words.splice(parseInt(parent.getAttribute('index')),1);
+        parent.remove();
+        update_save_button();
     }
 });
 
-addEventListener('keydown', function() {
+addEventListener('keydown', function(event) {
 const key = event.keyCode;
 if (!document.activeElement.matches('input[type="text"]')) {
     if (key == keys.e) {
@@ -132,6 +139,14 @@ if (!document.activeElement.matches('input[type="text"]')) {
     if (key == keys.s) {
         addWordsave(wordsList.innerText);
     }
+    if (key == keys.c & event.shiftKey) {
+        if (!clearWordsavesPreBTN.hidden) {
+            clearWordsavesPreBTN.click();
+        } else {
+            // clearSavedWords();
+            clearWordsavesBTN.click();
+        }
+    }
 }
 });
 
@@ -139,13 +154,38 @@ copyBTN.addEventListener('mouseout', function() {
     copyBTN.innerText = 'Copy'
 });
 
+clearWordsavesBTN.addEventListener('mouseout', function() {
+    const focused = !!document.activeElement == this;
+    this.hidden = true;
+    clearWordsavesPreBTN.hidden = false;
+    moreWordsBTN.focus();
+});
+
+clearWordsavesBTN.addEventListener('blur', function() {
+    const focused = !!document.activeElement == this;
+    this.hidden = true;
+    clearWordsavesPreBTN.hidden = false;
+    moreWordsBTN.focus();
+});
+
 function addWordsave(word) {
     if (typeof word == 'string') {
     runtime.saved_words.push(word);
-    savedWords.insertAdjacentHTML('beforeend',templates.wordsaveTemplate.replaceAll('%WORD%',word));
+    savedWords.insertAdjacentHTML('beforeend',templates.wordsaveTemplate.replaceAll('%WORD%',word).replaceAll('%INDEX%',runtime.saved_words.length - 1));
+    update_save_button();
     }
 }
 
 function clearSavedWords() {
     savedWords.innerHTML = '';
+    runtime.saved_words = [];
+    update_save_button();
+}
+
+function update_save_button() {
+    if (document.querySelectorAll('#saved-words .wordsave').length > 0) {
+        clearWordsavesPreBTN.disabled = false;
+    } else {
+        clearWordsavesPreBTN.disabled = true;
+    }
 }
