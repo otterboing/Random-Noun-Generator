@@ -191,10 +191,16 @@ a:not(:Not(:hover,:focus)) {
     transition: background 0.15s;
 }
 
-#clearWordsaves:not(:not(:hover)) {
+#clearWordsaves:not(:not(:hover,:focus)) {
     background: rgba(225.000,102.5,102.5);
     /* border-bottom: 1px solid red; */
     /* border-top: 1px solid rgba(255,50.0,50.0); */
+    border-left: none;
+    border-right: none;
+}
+
+#clearWordsavesPre:not(:not(:focus,:hover)) {
+    background: rgba(255,102.5,102.5);
     border-left: none;
     border-right: none;
 }
