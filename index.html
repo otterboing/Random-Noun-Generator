@@ -8,10 +8,11 @@
 </head>
 <body>
 <div area id="app">
-<div id="info" style="position: absolute; right: 5px; top: 5px; color: grey; display: flex; flex-direction: row; juftify-content: center; align-items: center; gap: 0.5rem; font-size: 0.80rem; font-weight: lighter;">
-    <span>Time Spent On this: 6 hours (maybe?)</span>
-    <a target="_blank" href="https://github.com/otterboing/Random-Nouns" style="color: grey!important;"><img src="assets/GitHub_Invertocat_Black.svg" style="width: 0.80rem; height: 0.80rem; user-select: none; -webkit-user-drag: none; -moz-user-drag: none;"> GitHub</a>
-    <span style="color: rgba(100,100,100);"><b> : <key>E</key> for new words, <key>S</key> to save word,</b><key>Shift C</key><b>To clear saves</b></span>
+<div id="info" style="position: absolute; right: 5px; top: 5px; color: grey; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 0.5rem; font-size: 0.80rem; font-weight: lighter;">
+    <span>Time Spent On this: 7 hours (maybe?)</span>
+    <a target="_blank" href="https://github.com/otterboing/Random-Nouns" tooltip="https://github.com/otterboing/Random-Nouns" tooltip-offset="15,5" style="color: grey!important;"><img src="assets/GitHub_Invertocat_Black.svg" style="width: 0.80rem; height: 0.80rem; user-select: none; -webkit-user-drag: none; -moz-user-drag: none;"> GitHub</a>
+    <button tabindex="1" onclick="alert('This site uses local cookies only!\n\nNo cookies are sent to or stored at any other location other than your computer.\n\nWords may be deleted automatically by your browser to save space.')" tooltip="Cookie Privacy">Cookies</button>
+    <span style="color: rgba(100,100,100);"><b> : <key>E</key> for new words, <key>S</key> to save word,</b><key>Shift C</key><b> x2 To clear saves</b></span>
 </div>
 <div id="center">
     <div id="words-list">
@@ -25,17 +26,17 @@
         <input id="wordSpacer" type="text" value=" " placeholder="Try Space" onkeyup="runtime.word_spacer = this.value; update_words();" onclick="const options = shuffle(['Try Space','Use HTML!','Words','Text']); this.placeholder = options[randInt(0,options.length - 1)];">
         <span>Capitalize:</span>
         <input id="capitalize_words" type="checkbox" onclick="runtime.uppercase = !!this.checked; update_words(); if (runtime.auto_copy) {copyWords();}">
-        <button id="copy-btn" onclick="copyWords(); this.innerText = 'Copied!'">Copy</button>
+        <button id="copy-btn" tooltip="<key>C</key>" tooltip-offset="10,5" onclick="copyWords(); this.innerText = 'Copied!'">Copy</button>
         <span>Auto Copy:</span>
         <input type="checkbox" onchange="runtime.auto_copy = !!this.checked;">
         <span> : </span>
-        <button id="saveWordBTN" alt="Save Word" title="[S]" onclick="addWordsave(wordsList.innerText);">Save</button>
+        <button id="saveWordBTN" alt="Save Word" tooltip="<key>S</key>" tooltip-offset="10,5" onclick="addWordsave(wordsList.innerText);">Save</button>
         
-        <button id="clearWordsavesPre" alt="Clear Saved Words" disabled title="Clear Saved Words" onclick="this.hidden = true; clearWordsavesBTN.hidden = false; clearWordsavesBTN.focus()">Clear</button>
-        <button hidden id="clearWordsaves" alt="Clear Saved Words" title="Clear Saved Words" onclick="clearSavedWords(); this.hidden = true; clearWordsavesPreBTN.hidden = false; clearWordsavesPreBTN.focus();">Press Again To Clear</button>
+        <button id="clearWordsavesPre" alt="Clear Saved Words" disabled tooltip="<key>Shift C</key>" tooltip-offset="10,5" onclick="this.hidden = true; clearWordsavesBTN.hidden = false; clearWordsavesBTN.focus()">Clear</button>
+        <button hidden id="clearWordsaves" alt="Clear Saved Words" tooltip="<key>Shift C</key>" tooltip-offset="10,5" onclick="clearSavedWords(); this.hidden = true; clearWordsavesPreBTN.hidden = false; clearWordsavesPreBTN.focus();">Press Again To Clear</button>
     </div>
-    <div style=" font-size: 0.75rem;"><span>Warning : </span><span style="color: darkred; font-weight: bold;">Words May Make Or Contain Swear Words.</span></div>
-    <div style="display: flex; flex-direction: column; text-align: center;"><span>Words taken from : </span><a target="_blank" href="https://github.com/sapics/noun-json/blob/master/output.js">https://github.com/sapics/noun-json/blob/master/output.js</a><a target="_blank" href="https://github.com/sapics/noun-json/blob/master/LICENSE">MIT License</a></div>
+    <div style=" font-size: 0.75rem;"><span>Warning : </span><span style="color: darkred; font-weight: bold;" tooltip="Not my fault if it does. 🤗">Words May Make Or Contain Swear Words.</span></div>
+    <div style="display: flex; flex-direction: column; text-align: center;"><span>Words taken from : </span><a target="_blank" href="https://github.com/sapics/noun-json/blob/master/output.js">https://github.com/sapics/noun-json/blob/master/output.js</a><a target="_blank" href="https://github.com/sapics/noun-json/blob/master/LICENSE" tooltip="https://github.com/sapics/noun-json/blob/master/LICENSE" tooltip-offset="15,5">MIT License</a></div>
     <div id="saved-words">
     </div>
 </div>
