@@ -204,7 +204,7 @@ if (!document.activeElement.matches('input[type="text"]')) {
             clearWordsavesBTN.click();
         }
     }
-    if (event.key == 'c' & !event.shiftKey) {
+    if (event.key == 'c' & !event.shiftKey & !event.ctrlKey) {
         summonCopyToast.at(window.innerWidth / 2 -30,window.innerHeight / 8);
         copyWords();
     }
