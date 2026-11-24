@@ -1,6 +1,6 @@
 const base_search_params = new URLSearchParams(document.location.search);
 
-const runtime = {'words_amount':2,'word_spacer':' ', 'auto-copy':false, 'current_words':[],'uppercase':false,'saved_words':[]};
+const runtime = {'words_amount':2,'word_spacer':' ', 'auto-copy':false, 'current_words':[], 'visible_words': [], 'uppercase':false,'saved_words':[], dropdown_open: false};
 
 const keys = {"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18,"pausebreak":19,"capslock":20,"esc":27,"space":32,"pageup":33,"pagedown":34,"end":35,"home":36,"leftarrow":37,"uparrow":38,"rightarrow":39,"downarrow":40,"print_screen":44,"insert":45,"delete":46,"a":65,"b":66,"c":67,"d":68,"e":69,"f":70,"g":71,"h":72,"i":73,"j":74,"k":75,"l":76,"m":77,"n":78,"o":79,"p":80,"q":81,"r":82,"s":83,"t":84,"u":85,"v":86,"w":87,"x":88,"y":89,"z":90,"leftwindowkey":91,"rightwindowkey":92,"selectkey":93,"numpad0":96,"numpad1":97,"numpad2":98,"numpad3":99,"numpad4":100,"numpad5":101,"numpad6":102,"numpad7":103,"numpad8":104,"numpad9":105,"multiply":106,"add":107,"subtract":109,"decimalpoint":110,"divide":111,"f1":112,"f2":113,"f3":114,"f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"numlock":144,"scrolllock":145,"semicolon":186,"equalsign":187,"comma":188,"dash":189,"period":190,"forwardslash":191,"graveaccent":192,"openbracket":219,"backslash":220,"closebracket":221,"singlequote":222};
 
@@ -80,6 +80,7 @@ function update_words() {
     runtime.current_words.forEach(word => {
         wordsTEMP.push(runtime.uppercase ? capitalize(word) : word);
     });
+    runtime.visible_words = wordsTEMP;
     wordsList.insertAdjacentHTML('beforeend',wordsTEMP.join(runtime.word_spacer));
     if (runtime.auto_copy) {
         copyWords();
@@ -105,6 +106,7 @@ function populateWords() {
     wordsList.remove();
     wordsList = document.querySelector('#app #center').insertAdjacentElement('afterbegin',document.createElement('div'));
     wordsList.id = 'words-list';
+    wordsList.setAttribute('oncontextmenu',"return false;");
     runtime.current_words = [];
     for (let w = 0; w < runtime.words_amount; w++) {
     shuffleWords();
@@ -116,6 +118,7 @@ function populateWords() {
     runtime.current_words.push(word);
     }
     wordsList.innerHTML = wordsList.innerHTML.slice(0,-1);
+    runtime.visible_words = runtime.current_words;
     if (runtime.auto_copy) {copyWords();}
 }
 
@@ -124,6 +127,7 @@ function setWords(words) {
     wordsList.remove();
     wordsList = document.querySelector('#app #center').insertAdjacentElement('afterbegin',document.createElement('div'));
     wordsList.id = 'words-list';
+    wordsList.setAttribute('oncontextmenu',"return false;");
     if (runtime.uppercase == true) {
         for (let w = 0;w < words.length;w++) {
             words[w] = (''+words[w]).split('',1)[0].toUpperCase() + (''+words[w]).slice(1);
@@ -293,4 +297,95 @@ addEventListener('mousemove', function (event) {
         }
     }
     tooltip.style.transform = 'translate(' + (event.clientX + offset[0]) + 'px,' + (event.clientY + offset[1]) + 'px)';
+});
+
+// Dropdown
+
+const dropdowns = {
+    wordlist: [
+        'Copy///copyWords();',
+        'Copy as array///copyText(JSON.stringify(runtime.visible_words));'
+    ],
+    text: [
+        'Copy text///copyText(document.getSelection().toString());'
+    ],
+    link: [
+        'Open link in new tab///window.open(this.target.href);',
+        'Copy link///copyText(this.target.href);'
+    ]
+};
+
+function createDropdownButton(button) {
+    const btn = document.createElement('button');
+    btn.innerText = button[0];
+    btn.setAttribute('onclick',button[1] + '; deleteDropdown();');
+    btn.setAttribute('oncontextmenu','return false;');
+    return btn;
+}
+
+function showDropdown(x,y,buttons,target) {
+    document.querySelectorAll('#dropdown').forEach(e => {e.remove();});
+    const dropdown = document.createElement('div');
+    dropdown.id="dropdown";
+    dropdown.style.left = x + 'px';
+    dropdown.style.top = y + 'px';
+    let index = 1;
+    buttons.forEach(button => {
+        const btn = createDropdownButton(button.split('///'));
+        btn.tabIndex = 0;
+        btn.target = target;
+        dropdown.insertAdjacentElement('beforeend',btn);
+        index++;
+    });
+    runtime.dropdown_open = true;
+    document.body.insertAdjacentElement('beforeend',dropdown);
+    document.querySelectorAll('#dropdown button')[0].focus();
+}
+
+function deleteDropdown() {
+    runtime.dropdown_open = false;
+    document.querySelectorAll('#dropdown').forEach(dropdown => {dropdown.remove();});
+}
+
+addEventListener('mousedown', event => {
+    if(event.button == 2) {
+        if (event.target.matches('#words-list')) {
+            showDropdown(event.clientX,event.clientY,dropdowns.wordlist,event.target);
+        } else
+        if (event.target.matches('a')) {
+            showDropdown(event.clientX,event.clientY,dropdowns.link,event.target);
+        } else 
+        if (document.getSelection().toString() != '') {
+            showDropdown(event.clientX,event.clientY,dropdowns.text);
+        }
+        else {
+        deleteDropdown();
+        };
+    } else {
+        if (!event.target.matches('#dropdown button'))
+        deleteDropdown();
+    }
+});
+
+addEventListener('keyup', function (event) {
+        if (runtime.dropdown_open == true) {
+            if (!document.activeElement.matches('#dropdown button')) {
+                document.querySelectorAll('#dropdown button')[0].focus();
+            } else {
+                if (event.key == 'ArrowUp') {
+                    try {
+                        document.activeElement.previousElementSibling.focus();
+                    } catch {
+                        document.querySelectorAll('#dropdown button')[0].focus();
+                    }
+                } else 
+                if (event.key == 'ArrowDown'){
+                    try {
+                        document.activeElement.nextElementSibling.focus();
+                    } catch {
+                        document.querySelectorAll('#dropdown button')[0].focus();
+                    }
+                }
+            }
+        }
 });
