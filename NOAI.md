@@ -8,4 +8,4 @@ No part of this project is to be copied, viewed, uploaded to, or used for traini
 
 This project is made by humans for humans, please respect this.
 
-contributions, issues or any other form of interaction by AI in this project will be removed and ignored.
+Contributions, issues or any other form of interaction by AI in this project will be removed and ignored.
