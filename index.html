@@ -10,9 +10,9 @@
 <div area id="app">
 <div id="info" style="position: absolute; right: 5px; top: 5px; color: grey; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 0.5rem; font-size: 0.80rem; font-weight: lighter;">
     <span>Time Spent On this: 7 hours (maybe?)</span>
-    <a target="_blank" href="https://github.com/otterboing/Random-Nouns" tooltip="https://github.com/otterboing/Random-Nouns" tooltip-offset="15,5" style="color: grey!important;"><img src="assets/GitHub_Invertocat_Black.svg" style="width: 0.80rem; height: 0.80rem; user-select: none; -webkit-user-drag: none; -moz-user-drag: none;"> GitHub</a>
-    <img src="assets/no-ai.svg" style="width: 1rem; height: 1rem;" tooltip="No AI (LLM) was used in the making of this website. Duh.">
-    <button tabindex="1" onclick="alert('This site uses local cookies only!\n\nNo cookies are sent to or stored at any other location other than your computer.\n\nWords may be deleted automatically by your browser to save space.')" tooltip="Cookie Privacy">Cookies</button>
+    <a id="github-link" tabindex="1" target="_blank" href="https://github.com/otterboing/Random-Nouns" tooltip="https://github.com/otterboing/Random-Nouns" tooltip-offset="15,5" style="color: grey!important;" onclick="this.blur();"><img src="assets/GitHub_Invertocat_Black.svg" style="width: 0.80rem; height: 0.80rem; user-select: none; -webkit-user-drag: none; -moz-user-drag: none;"> GitHub</a>
+    <img src="assets/no-ai.svg" style="width: 1rem; height: 1rem;" tooltip="No AI or LLM was used in the making of this website. Duh.">
+    <button tabindex="2" onclick="alert('This site uses local cookies only!\n\nNo cookies are sent to or stored at any other location other than your computer.\n\nWords may be deleted automatically by your browser to save space.')" tooltip="Cookie Privacy">Cookies</button>
     <span style="color: rgba(100,100,100);"><b> : <key>E</key> for new words, <key>S</key> to save word,</b><key>Shift C</key><b> x2 To clear saves</b></span>
 </div>
 <div id="center">

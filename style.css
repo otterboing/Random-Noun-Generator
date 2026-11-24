@@ -1,3 +1,8 @@
+/* @font-face {
+    font-family: "Google_Sans";
+    src: url('assets/fonts/Google_Sans/GoogleSans-VariableFont_GRAD,opsz,wght.woff2');
+} */
+
 html,body {padding: 0; margin: 0; font-family: system-ui; overflow: hidden;}
 
 .area,[area] {position: absolute; width: 100%; height: 100%;}
@@ -23,7 +28,7 @@ button:not([disabled]),input[type="checkbox"]:not([disabled]) {
 }
 
 input[type="checkbox"] {
-    transition: filter 0.25s;
+    transition: filter 0.1s;
 }
 
 input[type="checkbox"]:not(:focus) {
@@ -48,6 +53,17 @@ a:not(:hover,:focus) {
 
 a:not(:Not(:hover,:focus)) {
     text-decoration: underline;
+}
+
+#github-link {
+    padding: 0 0.15rem 0 0.15rem;
+    outline: none;
+}
+
+#github-link:not(:active):focus {
+    border-width: 0 2px 0 2px;
+    border-style: solid;
+    border-color: blue;
 }
 
 #app {
